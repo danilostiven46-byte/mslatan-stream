@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TopStreaming | En vivo</title>
+<title>TopStreaming</title>
 
 <link rel="icon" href="/assets/faviconTop.png">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -19,7 +19,7 @@ body{
   color:white;
 }
 
-/* HEADER PC */
+/* ===== HEADER PC ===== */
 .header{
   position:fixed;
   top:0;
@@ -27,91 +27,111 @@ body{
   right:0;
   height:70px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  padding:0 24px;
+  justify-content:space-between;
+  padding:0 40px;
   background:rgba(0,0,0,0.6);
   backdrop-filter:blur(12px);
   z-index:10;
 }
 
-.logo{
-  height:40px;
-}
-
-.menu{
+.left{
   display:flex;
-  gap:10px;
+  align-items:center;
+  gap:30px;
 }
 
-.btn-top{
-  padding:10px 14px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.1);
-  background:rgba(255,255,255,0.05);
-  color:white;
+.logo{
+  height:46px;
+}
+
+.nav{
+  display:flex;
+  gap:24px;
+}
+
+.nav a{
   text-decoration:none;
+  color:#e5e7eb;
+  font-weight:500;
+  transition:.3s;
 }
 
-.btn-top.green{
+.nav a:hover{
+  color:#10b981;
+}
+
+/* BOTON */
+.btn-main{
+  padding:10px 18px;
+  border-radius:14px;
   background:linear-gradient(135deg,#10b981,#059669);
-  border:none;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
 }
 
-/* CONTENIDO */
+/* ===== PLAYER ===== */
 .main{
-  padding-top:90px;
+  padding-top:80px;
   display:flex;
   justify-content:center;
 }
 
 .player-wrap{
-  width:100%;
-  max-width:1100px;
-  padding:0 16px;
+  width:95%;
 }
 
 .player{
   width:100%;
-  aspect-ratio:16/9;
+  height:80vh;
   background:black;
-  border-radius:18px;
+  border-radius:16px;
   overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
 }
 
 video{
   width:100%;
   height:100%;
-  object-fit:contain;
+  object-fit:cover;
 }
 
-/* MOBILE */
+/* ===== MOBILE ===== */
 @media(max-width:768px){
 
   .header{
-    height:60px;
     justify-content:center;
+    height:90px;
   }
 
-  .menu{
+  .left{
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .logo{
+    height:64px;
+  }
+
+  .nav{
+    display:none;
+  }
+
+  .btn-main{
     display:none;
   }
 
   .main{
-    padding-top:70px;
-  }
-
-  .player-wrap{
-    padding:0;
+    padding-top:100px;
   }
 
   .player{
+    height:50vh;
     border-radius:0;
   }
 }
 
-/* BOTTOM NAV */
+/* ===== NAV MOBILE ===== */
 .bottomNav{
   position:fixed;
   bottom:0;
@@ -123,10 +143,9 @@ video{
   align-items:center;
   background:rgba(10,15,25,0.95);
   backdrop-filter:blur(10px);
-  border-top:1px solid rgba(255,255,255,0.08);
 }
 
-.bottomNav-item{
+.bottomNav a{
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -135,16 +154,11 @@ video{
   text-decoration:none;
 }
 
-.bottomNav-icon{
-  font-size:18px;
-}
-
-/* PC ocultar nav */
 @media(min-width:769px){
   .bottomNav{display:none;}
 }
 
-/* TV MODE */
+/* ===== TV MODE ===== */
 .tv body{
   background:black;
 }
@@ -167,96 +181,98 @@ video{
 
 <!-- HEADER -->
 <div class="header">
-  <img src="/assets/LogoTop.png" class="logo">
+  <div class="left">
+    <img src="/assets/LogoTop.png" class="logo">
 
-  <div class="menu">
-    <a href="https://www.chesttop.com/portal" class="btn-top">Portal Clientes</a>
-    <a href="https://wa.me/51904293916" class="btn-top green">WhatsApp</a>
-    <a href="https://www.justwatch.com/pe" class="btn-top">Películas</a>
-    <a href="#" onclick="location.reload()" class="btn-top">Actualizar</a>
+    <div class="nav">
+      <a href="https://www.chesttop.com">Productos</a>
+      <a href="https://www.chesttop.com/portal">Mis cuentas</a>
+    </div>
   </div>
+
+  <div class="btn-main" onclick="toggleFull()">Pantalla completa</div>
 </div>
 
 <!-- PLAYER -->
 <div class="main">
   <div class="player-wrap">
     <div class="player">
-      <video id="video" playsinline controls></video>
+      <video id="video" playsinline></video>
     </div>
   </div>
 </div>
 
 <!-- NAV MOBILE -->
 <nav class="bottomNav">
-  <a href="https://www.chesttop.com" class="bottomNav-item">
-    <span class="bottomNav-icon">🛍️</span>
-    <span>Productos</span>
-  </a>
-
-  <a href="https://www.chesttop.com/portal" class="bottomNav-item">
-    <span class="bottomNav-icon">👤</span>
-    <span>Mis cuentas</span>
-  </a>
-
-  <a href="https://www.justwatch.com/pe" class="bottomNav-item">
-    <span class="bottomNav-icon">🍿</span>
-    <span>Películas</span>
-  </a>
-
-  <a href="https://wa.me/51904293916" class="bottomNav-item">
-    <span class="bottomNav-icon">💬</span>
-    <span>Contacto</span>
-  </a>
+  <a href="https://www.chesttop.com">🛍️<span>Productos</span></a>
+  <a href="https://www.chesttop.com/portal">👤<span>Mis cuentas</span></a>
+  <a href="https://www.justwatch.com/pe">🍿<span>Películas</span></a>
+  <a href="https://wa.me/51904293916">💬<span>Contacto</span></a>
 </nav>
 
 <script>
 const STREAM = "https://stream.mslatan.xyz/hls/stream.m3u8";
-const ACCESS_KEY = "access_exp";
 const video = document.getElementById("video");
 
-/* 🔐 PROTECCIÓN */
-if(Number(localStorage.getItem(ACCESS_KEY)||0) < Date.now()){
+/* 🔐 protección */
+const exp = localStorage.getItem("access_exp");
+if(!exp || Date.now() > Number(exp)){
   window.location.href = "index.html";
 }
 
-/* 📺 DETECTAR TV */
-const isTV = /smart-tv|smarttv|googletv|appletv|hbbtv|tizen|webos|netcast|viera|roku|android tv/i.test(navigator.userAgent);
-
+/* 📺 detectar TV */
+const isTV = /smart-tv|smarttv|googletv|appletv|hbbtv|tizen|webos|roku|android tv/i.test(navigator.userAgent);
 if(isTV){
   document.documentElement.classList.add("tv");
 }
 
-/* 🎥 PLAYER (FIX TV) */
+/* 🎥 iniciar video */
 function start(){
 
-  /* 🔥 intento nativo primero (clave TV) */
+  // intento con audio directo
   if(video.canPlayType("application/vnd.apple.mpegurl")){
     video.src = STREAM;
-    video.muted = true;
-    video.play().catch(()=>{});
+    video.muted = false;
+    video.play().catch(()=>{
+      fallbackMuted();
+    });
     return;
   }
 
-  /* 🔥 fallback HLS.js */
   if(Hls.isSupported()){
-    const hls = new Hls({
-      lowLatencyMode:true
-    });
+    const hls = new Hls();
     hls.loadSource(STREAM);
     hls.attachMedia(video);
     hls.on(Hls.Events.MANIFEST_PARSED, ()=>{
-      video.muted = true;
-      video.play().catch(()=>{});
+      video.muted = false;
+      video.play().catch(()=>{
+        fallbackMuted();
+      });
     });
   }
 }
 
-start();
+/* 🔁 fallback */
+function fallbackMuted(){
+  video.muted = true;
+  video.play().catch(()=>{});
+}
 
-/* activar sonido al interactuar */
-video.addEventListener("click", ()=>{
+/* 🔊 activar sonido en interacción */
+document.addEventListener("click", ()=>{
   video.muted = false;
 });
+
+/* 🖥 fullscreen */
+function toggleFull(){
+  if(!document.fullscreenElement){
+    video.requestFullscreen();
+  }else{
+    document.exitFullscreen();
+  }
+}
+
+start();
 </script>
 
 </body>
