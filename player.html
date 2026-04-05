@@ -1,1 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TopStreaming | En vivo</title>
 
+<link rel="icon" href="/assets/faviconTop.png">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif;}
+
+body{
+  background:#020617;
+  color:white;
+}
+
+/* HEADER */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 24px;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(12px);
+}
+
+.logo{
+  height:40px;
+}
+
+.menu{
+  display:flex;
+  gap:10px;
+}
+
+.btn-top{
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.05);
+  cursor:pointer;
+}
+
+.btn-top.green{
+  background:linear-gradient(135deg,#10b981,#059669);
+  border:none;
+}
+
+/* PLAYER */
+.container{
+  max-width:1100px;
+  margin:30px auto;
+  padding:0 16px;
+}
+
+.player{
+  width:100%;
+  aspect-ratio:16/9;
+  background:black;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+video{
+  width:100%;
+  height:100%;
+}
+
+/* BOTONES */
+.controls{
+  display:flex;
+  gap:10px;
+  margin-top:16px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  flex:1;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn.main{
+  background:linear-gradient(135deg,#10b981,#3b82f6);
+}
+
+.btn.sec{
+  background:#111827;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+/* STATUS */
+.status{
+  text-align:center;
+  margin-top:16px;
+  opacity:0.8;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .header{display:none;}
+}
+
+/* TV MODE */
+.tv .header{display:none;}
+.tv .controls{justify-content:center;}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <img src="/assets/LogoTop.png" class="logo">
+
+  <div class="menu">
+    <a href="https://www.chesttop.com/portal" class="btn-top">Portal Clientes</a>
+    <a href="https://wa.me/51904293916" class="btn-top green">WhatsApp</a>
+    <button class="btn-top">Buscar película</button>
+    <button class="btn-top" onclick="location.reload()">Actualizar</button>
+  </div>
+</div>
+
+<!-- PLAYER -->
+<div class="container">
+
+  <div class="player">
+    <video id="video" controls></video>
+  </div>
+
+  <div class="controls">
+    <button class="btn main" onclick="fullscreen()">Pantalla completa</button>
+    <button class="btn sec" onclick="location.reload()">Recargar</button>
+    <a href="https://www.chesttop.com" class="btn sec">Volver</a>
+    <a href="https://wa.me/51904293916" class="btn sec">WhatsApp</a>
+  </div>
+
+  <div class="status" id="status">Conectando...</div>
+
+</div>
+
+<script>
+const STREAM = "https://stream.mslatan.xyz/hls/stream.m3u8";
+const ACCESS_KEY = "access_exp";
+
+const video = document.getElementById("video");
+const status = document.getElementById("status");
+
+/* 🔐 PROTECCIÓN */
+if(Number(localStorage.getItem(ACCESS_KEY)||0) < Date.now()){
+  window.location.href = "index.html";
+}
+
+/* 📺 DETECTAR TV */
+if(/tv|smart|android/i.test(navigator.userAgent)){
+  document.body.classList.add("tv");
+}
+
+/* 🎥 PLAYER */
+function start(){
+  if(video.canPlayType("application/vnd.apple.mpegurl")){
+    video.src = STREAM;
+    video.play();
+  }else if(Hls.isSupported()){
+    const hls = new Hls();
+    hls.loadSource(STREAM);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, ()=>{
+      video.play();
+    });
+    hls.on(Hls.Events.ERROR, ()=>{
+      status.innerText="Sin señal";
+    });
+  }
+}
+
+video.addEventListener("playing", ()=>{
+  status.innerText="En vivo";
+});
+
+video.addEventListener("error", ()=>{
+  status.innerText="Sin señal";
+});
+
+start();
+
+/* FULLSCREEN */
+function fullscreen(){
+  const el = document.querySelector(".player");
+  if(el.requestFullscreen) el.requestFullscreen();
+}
+</script>
+
+</body>
+</html>
