@@ -3,10 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <title>TopStreaming</title>
-</head>
-<body style="background:#0d0d0d; color:white; display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif;">
+  <link rel="icon" href="assets/faviconTop.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <h1>TopStreaming funcionando 🔥</h1>
+  <style>
+    body {
+      margin: 0;
+      background: #0b0b0b;
+      font-family: Arial, sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    img {
+      width: 180px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 15px;
+      width: 100%;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 15px;
+      width: 100%;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #e50914;
+      color: white;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .player {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .top-buttons {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 10;
+    }
+
+    .top-buttons button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGIN -->
+  <div class="container" id="loginBox">
+    <img src="assets/LogoTop.png">
+    <input type="password" id="codeInput" placeholder="Código de acceso">
+    <button onclick="checkCode()">Entrar</button>
+  </div>
+
+  <!-- PLAYER -->
+  <div class="player hidden" id="playerBox">
+    <div class="top-buttons">
+      <button onclick="location.reload()">Recargar</button>
+      <button onclick="window.location.href='https://www.chesttop.com'">Volver</button>
+    </div>
+
+    <iframe src="https://stream.mslatan.xyz"></iframe>
+  </div>
+
+<script>
+function generarCodigo() {
+  const hoy = new Date();
+
+  const dia = hoy.getDate();
+  const mes = hoy.getMonth() + 1;
+  const año = hoy.getFullYear();
+
+  let resultado = Math.pow(dia + mes, 2) * año;
+
+  let codigo = resultado.toString();
+
+  if (codigo.length > 6) {
+    codigo = codigo.substring(0, 6);
+  } else {
+    while (codigo.length < 6) {
+      codigo += "0";
+    }
+  }
+
+  return codigo;
+}
+
+function checkCode() {
+  const input = document.getElementById("codeInput").value;
+  const correcto = generarCodigo();
+
+  if (input === correcto) {
+    localStorage.setItem("acceso", Date.now());
+    entrar();
+  } else {
+    alert("Código incorrecto");
+  }
+}
+
+function entrar() {
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("playerBox").classList.remove("hidden");
+}
+
+// Mantener sesión 12 horas
+const acceso = localStorage.getItem("acceso");
+
+if (acceso) {
+  const ahora = Date.now();
+  const doceHoras = 12 * 60 * 60 * 1000;
+
+  if (ahora - acceso < doceHoras) {
+    entrar();
+  }
+}
+</script>
 
 </body>
 </html>
