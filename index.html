@@ -1,233 +1,258 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<link rel="icon" type="image/png" href="/assets/faviconTop.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TopStreaming | Acceso</title>
+<title>TopStreaming</title>
+
+<link rel="icon" href="/assets/faviconTop.png">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Inter, sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif;}
 
-body {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* 🔥 FONDO IGUAL A TU WEB */
+/* 🔥 FONDO PRO SIN CORTES */
+body{
+  min-height:100vh;
   background:
-    radial-gradient(circle at top left, rgba(16,185,129,0.25), transparent 40%),
-    radial-gradient(circle at bottom right, rgba(59,130,246,0.25), transparent 40%),
+    radial-gradient(circle at 20% 10%, rgba(255,0,0,0.25), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(180,0,0,0.2), transparent 50%),
     #020617;
-
-  color: white;
+  background-attachment:fixed;
+  color:white;
 }
 
-/* CONTENEDOR */
-.container {
-  width: 100%;
-  max-width: 420px;
-  padding: 32px 28px;
-  border-radius: 26px;
-
-  background: rgba(10,15,25,0.75);
-  backdrop-filter: blur(18px);
-
-  border: 1px solid rgba(255,255,255,0.08);
-
-  box-shadow:
-    0 30px 80px rgba(0,0,0,0.7),
-    0 0 40px rgba(16,185,129,0.08);
-
-  text-align: center;
-
-  animation: fadeIn 0.6s ease;
+/* ===== HEADER ===== */
+.header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 40px;
+  background:linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
+  z-index:10;
 }
 
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(25px);}
-  to {opacity:1; transform:translateY(0);}
+.left{
+  display:flex;
+  align-items:center;
+  gap:30px;
 }
 
-/* LOGO 🔥 MÁS GRANDE */
-.logo {
-  width: 120px;
-  margin-bottom: 18px;
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
+.logo{
+  height:46px;
 }
 
-/* TITULOS */
-h1 {
-  font-size: 1.9rem;
-  margin-bottom: 6px;
-  font-weight: 700;
+.nav{
+  display:flex;
+  gap:24px;
 }
 
-p {
-  color: #94a3b8;
-  font-size: 0.95rem;
+.nav a{
+  text-decoration:none;
+  color:#e5e7eb;
+  font-weight:500;
+  transition:.3s;
 }
 
-/* INPUT */
-.input {
-  margin-top: 22px;
-  width: 100%;
-  padding: 16px;
-  border-radius: 14px;
-
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(255,255,255,0.04);
-
-  color: white;
-  text-align: center;
-
-  font-size: 1.35rem;
-  letter-spacing: 0.45em;
-
-  outline: none;
+.nav a:hover{
+  color:#ef4444;
 }
 
-.input:focus {
-  border-color: #10b981;
-  box-shadow: 0 0 0 4px rgba(16,185,129,0.25);
+/* 🔥 BOTON RECARGAR */
+.btn-main{
+  padding:10px 18px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
 }
 
-/* BOTON 🔥 VERDE AZUL */
-.btn {
-  margin-top: 18px;
-  width: 100%;
-  padding: 14px;
-
-  border-radius: 14px;
-  border: none;
-
-  background: linear-gradient(135deg, #10b981, #3b82f6);
-
-  color: white;
-  font-weight: 700;
-
-  cursor: pointer;
-  transition: 0.25s;
+/* ===== PLAYER ===== */
+.main{
+  padding-top:80px;
+  display:flex;
+  justify-content:center;
 }
 
-.btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
+.player-wrap{
+  width:95%;
 }
 
-/* MENSAJE */
-.msg {
-  margin-top: 12px;
-  font-size: 0.9rem;
-  min-height: 18px;
+.player{
+  width:100%;
+  height:80vh;
+  background:black;
+  border-radius:16px;
+  overflow:hidden;
 }
 
-.error {
-  color: #fb7185;
+video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+
+  .header{
+    justify-content:center;
+    height:90px;
+  }
+
+  .left{
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .logo{
+    height:70px;
+  }
+
+  .nav{
+    display:none;
+  }
+
+  .btn-main{
+    display:none;
+  }
+
+  .main{
+    padding-top:110px;
+  }
+
+  .player{
+    height:50vh;
+    border-radius:0;
+  }
+}
+
+/* ===== NAV MOBILE ===== */
+.bottomNav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:70px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  background:rgba(10,15,25,0.95);
+  backdrop-filter:blur(10px);
+}
+
+.bottomNav a{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:12px;
+  color:#cbd5f5;
+  text-decoration:none;
+}
+
+@media(min-width:769px){
+  .bottomNav{display:none;}
+}
+
+/* ===== TV MODE ===== */
+.tv body{
+  background:black;
+}
+
+.tv .header,
+.tv .bottomNav,
+.tv .main{
+  display:none !important;
+}
+
+.tv video{
+  width:100vw;
+  height:100vh;
+  object-fit:cover;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- HEADER -->
+<div class="header">
+  <div class="left">
+    <img src="/assets/LogoTop.png" class="logo">
 
-  <img src="/assets/LogoTop.png" class="logo">
+    <div class="nav">
+      <a href="https://www.chesttop.com">Productos</a>
+      <a href="https://www.chesttop.com/portal">Mis cuentas</a>
+    </div>
+  </div>
 
-  <h1>Acceso privado</h1>
-  <p>Ingresa la clave diaria de 6 dígitos</p>
-
-  <form id="form">
-    <input id="input" class="input" maxlength="6" placeholder="000000">
-    <button class="btn">Entrar</button>
-  </form>
-
-  <div id="msg" class="msg"></div>
-
+  <div class="btn-main" onclick="location.reload()">Recargar</div>
 </div>
 
+<!-- PLAYER -->
+<div class="main">
+  <div class="player-wrap">
+    <div class="player">
+      <video id="video" controls playsinline webkit-playsinline></video>
+    </div>
+  </div>
+</div>
+
+<!-- NAV MOBILE -->
+<nav class="bottomNav">
+  <a href="https://www.chesttop.com">🛍️<span>Productos</span></a>
+  <a href="https://www.chesttop.com/portal">👤<span>Mis cuentas</span></a>
+  <a href="https://www.justwatch.com/pe">🍿<span>Películas</span></a>
+  <a href="https://wa.me/51904293916">💬<span>Contacto</span></a>
+</nav>
+
 <script>
-const MAX_ATTEMPTS = 10;
-const ATTEMPTS_KEY = 'attempts';
-const ACCESS_KEY = 'access_exp';
-const ACCESS_HOURS = 12;
+const STREAM = "https://stream.mslatan.xyz/hls/stream.m3u8";
+const video = document.getElementById("video");
 
-/* PERU TIME */
-function peruNow(){
-  return new Date(new Date().toLocaleString('en-US',{timeZone:'America/Lima'}));
+/* 🔐 protección */
+const exp = localStorage.getItem("access_exp");
+if(!exp || Date.now() > Number(exp)){
+  window.location.href = "index.html";
 }
 
-/* CODIGO */
-function generateCode(){
-  const now = peruNow();
-  const d = now.getDate();
-  const m = now.getMonth()+1;
-  const y = now.getFullYear();
-
-  let val = Math.pow(d+m,2)*y;
-  let code = String(val);
-
-  if(code.length > 6) code = code.slice(0,6);
-  if(code.length < 6) code = code.padEnd(6,'0');
-
-  return code;
+/* 📺 detectar TV */
+const isTV = /smart-tv|smarttv|googletv|appletv|hbbtv|tizen|webos|roku|android tv/i.test(navigator.userAgent);
+if(isTV){
+  document.documentElement.classList.add("tv");
 }
 
-/* INTENTOS */
-function getAttempts(){ return Number(localStorage.getItem(ATTEMPTS_KEY)||0); }
-function setAttempts(v){ localStorage.setItem(ATTEMPTS_KEY,v); }
-function resetAttempts(){ localStorage.removeItem(ATTEMPTS_KEY); }
+/* 🎥 iniciar video */
+function start(){
 
-/* ACCESO */
-function grantAccess(){
-  const exp = Date.now() + ACCESS_HOURS*3600000;
-  localStorage.setItem(ACCESS_KEY, exp);
-  window.location.href = "player.html";
-}
-
-/* FORM */
-document.getElementById('form').addEventListener('submit', e=>{
-  e.preventDefault();
-
-  let attempts = getAttempts();
-  const msg = document.getElementById('msg');
-
-  if(attempts >= MAX_ATTEMPTS){
-    msg.textContent = "Demasiados intentos. Intenta más tarde.";
-    msg.classList.add('error');
+  if(video.canPlayType("application/vnd.apple.mpegurl")){
+    video.src = STREAM;
+    video.play().catch(()=>fallback());
     return;
   }
 
-  const entered = document.getElementById('input').value.replace(/\D/g,'').slice(0,6);
-  const expected = generateCode();
-
-  if(entered === expected){
-    resetAttempts();
-    grantAccess();
-  } else {
-    attempts++;
-    setAttempts(attempts);
-    let left = MAX_ATTEMPTS - attempts;
-    msg.textContent = `Clave incorrecta. Te quedan ${left} intentos`;
-    msg.classList.add('error');
+  if(Hls.isSupported()){
+    const hls = new Hls();
+    hls.loadSource(STREAM);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, ()=>{
+      video.play().catch(()=>fallback());
+    });
   }
-});
-
-/* SOLO NUMEROS */
-document.getElementById('input').addEventListener('input', e=>{
-  e.target.value = e.target.value.replace(/\D/g,'').slice(0,6);
-});
-
-/* AUTO REDIRECT */
-if(Number(localStorage.getItem(ACCESS_KEY)||0) > Date.now()){
-  window.location.href = "player.html";
 }
+
+function fallback(){
+  video.muted = true;
+  video.play().catch(()=>{});
+}
+
+start();
 </script>
 
 </body>
