@@ -8,14 +8,8 @@
 <link rel="icon" href="/assets/faviconTop.png">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Inter, sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif;}
 
-/* 🔥 FONDO PREMIUM */
 body{
   height:100vh;
   display:flex;
@@ -28,52 +22,49 @@ body{
   color:white;
 }
 
-/* 💎 CONTENEDOR GLASS */
+/* CONTENEDOR MEJORADO */
 .container{
   width:100%;
   max-width:420px;
-  padding:36px 28px;
-  border-radius:26px;
+  padding:30px;
+  border-radius:24px;
 
-  background:rgba(10,10,10,0.65);
-  backdrop-filter:blur(18px);
+  background:rgba(10,10,10,0.55);
+  backdrop-filter:blur(16px);
 
-  border:1px solid rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.06);
 
   box-shadow:
-    0 30px 80px rgba(0,0,0,0.8),
-    0 0 40px rgba(239,68,68,0.08);
+    0 25px 70px rgba(0,0,0,0.7),
+    0 0 30px rgba(239,68,68,0.06);
 
   text-align:center;
-
-  animation:fadeIn .6s ease;
 }
 
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(15px);}
-  to{opacity:1; transform:translateY(0);}
-}
-
-/* 🔴 LOGO */
+/* LOGO */
 .logo{
   width:150px;
-  margin-bottom:22px;
-  filter:drop-shadow(0 0 12px rgba(239,68,68,0.25));
+  margin-bottom:18px;
+  filter:drop-shadow(0 0 10px rgba(239,68,68,0.2));
 }
 
-/* TITULO */
-h1{
-  font-size:1.5rem;
-  margin-bottom:10px;
-  font-weight:600;
+/* TITULOS */
+h2{
+  font-size:1.2rem;
+  margin-bottom:6px;
+}
+
+p{
+  font-size:0.9rem;
+  color:#a1a1aa;
 }
 
 /* INPUT */
 .input{
-  margin-top:22px;
+  margin-top:20px;
   width:100%;
-  padding:16px;
-  border-radius:14px;
+  padding:14px;
+  border-radius:12px;
 
   border:1px solid rgba(255,255,255,0.15);
   background:rgba(255,255,255,0.04);
@@ -81,56 +72,52 @@ h1{
   color:white;
   text-align:center;
 
-  font-size:1.4rem;
-  letter-spacing:0.35em;
+  font-size:1.3rem;
+  letter-spacing:0.3em;
 
   outline:none;
-
-  transition:.25s;
 }
 
 .input:focus{
   border-color:#ef4444;
-  box-shadow:
-    0 0 0 3px rgba(239,68,68,0.15),
-    0 0 12px rgba(239,68,68,0.25);
+  box-shadow:0 0 10px rgba(239,68,68,0.2);
 }
 
-/* 🔥 BOTÓN PREMIUM */
+/* BOTON ULTRA PREMIUM */
 .btn{
   margin-top:16px;
   width:100%;
   padding:14px;
 
-  border-radius:14px;
+  border-radius:12px;
   border:none;
 
-  background:linear-gradient(135deg,#ef4444,#991b1b);
+  background:
+    linear-gradient(135deg,#ff1f1f,#7f1d1d);
 
   color:white;
   font-weight:600;
-  font-size:0.95rem;
 
   cursor:pointer;
 
   box-shadow:
-    0 10px 25px rgba(239,68,68,0.25),
-    inset 0 0 10px rgba(255,255,255,0.05);
+    0 8px 20px rgba(239,68,68,0.35),
+    inset 0 0 10px rgba(255,255,255,0.08);
 
   transition:.2s;
 }
 
 .btn:hover{
-  transform:translateY(-2px);
+  transform:translateY(-1px);
   box-shadow:
-    0 15px 35px rgba(239,68,68,0.35),
-    inset 0 0 12px rgba(255,255,255,0.08);
+    0 12px 28px rgba(239,68,68,0.45),
+    inset 0 0 12px rgba(255,255,255,0.12);
 }
 
 /* MENSAJE */
 .msg{
-  margin-top:14px;
-  font-size:0.9rem;
+  margin-top:10px;
+  font-size:0.85rem;
   min-height:18px;
 }
 
@@ -146,7 +133,8 @@ h1{
 
   <img src="/assets/LogoTop.png" class="logo">
 
-  <h1>Ingresa la clave secreta de 6 dígitos</h1>
+  <h2>Acceso privado</h2>
+  <p>Ingresa la clave secreta de 6 dígitos</p>
 
   <form id="form">
     <input id="input" class="input" maxlength="6" placeholder="000000">
@@ -163,12 +151,10 @@ const ACCESS_KEY = "access_exp";
 const ATTEMPTS_KEY = "attempts";
 const ACCESS_HOURS = 12;
 
-/* 🕒 Hora Perú */
 function peruNow(){
   return new Date(new Date().toLocaleString('en-US',{timeZone:'America/Lima'}));
 }
 
-/* 🔢 Código dinámico */
 function generateCode(){
   const now = peruNow();
   const d = now.getDate();
@@ -184,35 +170,20 @@ function generateCode(){
   return code;
 }
 
-/* INTENTOS */
-function getAttempts(){
-  return Number(localStorage.getItem(ATTEMPTS_KEY)||0);
-}
-
-function setAttempts(v){
-  localStorage.setItem(ATTEMPTS_KEY,v);
-}
-
-function resetAttempts(){
-  localStorage.removeItem(ATTEMPTS_KEY);
-}
-
-/* ACCESO */
 function grantAccess(){
   const exp = Date.now() + ACCESS_HOURS*3600000;
   localStorage.setItem(ACCESS_KEY, exp);
   window.location.href = "player.html";
 }
 
-/* FORM */
 document.getElementById("form").addEventListener("submit", e=>{
   e.preventDefault();
 
-  let attempts = getAttempts();
+  let attempts = Number(localStorage.getItem(ATTEMPTS_KEY)||0);
   const msg = document.getElementById("msg");
 
   if(attempts >= MAX_ATTEMPTS){
-    msg.textContent = "Demasiados intentos. Intenta más tarde.";
+    msg.textContent = "Demasiados intentos.";
     msg.classList.add("error");
     return;
   }
@@ -221,23 +192,20 @@ document.getElementById("form").addEventListener("submit", e=>{
   const expected = generateCode();
 
   if(entered === expected){
-    resetAttempts();
+    localStorage.removeItem(ATTEMPTS_KEY);
     grantAccess();
   } else {
     attempts++;
-    setAttempts(attempts);
-    const left = MAX_ATTEMPTS - attempts;
-    msg.textContent = `Clave incorrecta. Te quedan ${left} intentos`;
+    localStorage.setItem(ATTEMPTS_KEY, attempts);
+    msg.textContent = `Te quedan ${MAX_ATTEMPTS - attempts} intentos`;
     msg.classList.add("error");
   }
 });
 
-/* SOLO NÚMEROS */
 document.getElementById("input").addEventListener("input", e=>{
   e.target.value = e.target.value.replace(/\D/g,'').slice(0,6);
 });
 
-/* AUTO REDIRECT */
 if(Number(localStorage.getItem(ACCESS_KEY)||0) > Date.now()){
   window.location.href = "player.html";
 }
