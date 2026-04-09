@@ -101,7 +101,12 @@ body{
 video{
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:cover; /* No se cambia, mantiene el comportamiento normal */
+}
+
+/* Cuando está en pantalla completa */
+video:fullscreen {
+  object-fit: contain;  /* Ajuste para no recortar el video ni hacer zoom en pantalla completa */
 }
 
 /* ===== MOBILE ===== */
@@ -267,6 +272,20 @@ function fallback(){
 }
 
 start();
+
+  
+  /* Manejo de pantalla completa */
+document.querySelector('video').addEventListener('fullscreenchange', function() {
+  if (document.fullscreenElement) {
+    // Cuando entra en pantalla completa
+    document.querySelector('video').style.objectFit = 'contain';
+  } else {
+    // Cuando sale de pantalla completa
+    document.querySelector('video').style.objectFit = 'cover';
+  }
+});
+
+  
 </script>
 
 </body>
