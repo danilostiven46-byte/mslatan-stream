@@ -109,10 +109,6 @@ video:fullscreen {
   object-fit: contain;  /* Ajuste para no recortar el video ni hacer zoom en pantalla completa */
 }
 
-.castBtn{
-  display:none;
-}
-
 /* ===== MOBILE ===== */
 @media(max-width:768px){
 
@@ -152,22 +148,6 @@ video:fullscreen {
     box-shadow:
       0 0 25px rgba(239,68,68,0.25),
       0 20px 40px rgba(0,0,0,0.6);
-  }
-
-  .castBtn{
-    display:block;
-    margin:18px auto 0;
-    padding:13px 22px;
-    border:none;
-    border-radius:16px;
-    background:linear-gradient(135deg,#ef4444,#b91c1c);
-    color:white;
-    font-size:15px;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:
-      0 0 18px rgba(239,68,68,0.28),
-      0 14px 30px rgba(0,0,0,0.45);
   }
 }
 
@@ -237,13 +217,9 @@ video:fullscreen {
 <!-- PLAYER -->
 <div class="main">
   <div class="player-wrap">
-<div class="player">
-  <video id="video" controls playsinline webkit-playsinline></video>
-</div>
-
-<button class="castBtn" id="castBtn">
-  📺 Ver en TV
-</button>
+    <div class="player">
+      <video id="video" controls playsinline webkit-playsinline></video>
+    </div>
   </div>
 </div>
 
@@ -297,19 +273,6 @@ function fallback(){
 
 start();
 
-const castBtn = document.getElementById("castBtn");
-
-castBtn.addEventListener("click", async () => {
-  try {
-    if(video.remote && typeof video.remote.prompt === "function"){
-      await video.remote.prompt();
-    } else {
-      alert("Tu navegador no permite transmitir directo. Prueba desde Chrome en Android con una TV compatible.");
-    }
-  } catch (error) {
-    alert("No se pudo iniciar la transmisión a TV. Verifica que tu celular y TV estén en la misma red.");
-  }
-});
   
   /* Manejo de pantalla completa */
 document.querySelector('video').addEventListener('fullscreenchange', function() {
